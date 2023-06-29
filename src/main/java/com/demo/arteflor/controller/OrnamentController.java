@@ -34,12 +34,12 @@ public class OrnamentController {
         return ResponseEntity.of(ornamentService.findByName(name));
     }
     @GetMapping("/ornament-category-search")
-    public ResponseEntity<List<OrnamentDto>> getOrnamentByCategory(@RequestParam String category){
-        return ResponseEntity.of(ornamentService.findByName(category));
+    public ResponseEntity<List<OrnamentDto>> getOrnamentByCategory(@RequestParam String categoryTitle){
+        return ResponseEntity.ok(ornamentService.findByCategoryTitle(categoryTitle));
     }
     @GetMapping("/ornament-type-search")
-    public ResponseEntity<List<OrnamentDto>> getOrnamentByType(@RequestParam String type){
-        return ResponseEntity.of(ornamentService.findByName(type));
+    public ResponseEntity<List<OrnamentDto>> getOrnamentByType(@RequestParam String typeTitle){
+        return ResponseEntity.ok(ornamentService.findByTypeTitle(typeTitle));
     }
     @GetMapping("/ornament-model-search")
     public ResponseEntity<List<OrnamentDto>> getOrnamentByModel(@RequestParam String model){

@@ -4,6 +4,7 @@ import com.demo.arteflor.convertor.OrnamentConvertor;
 import com.demo.arteflor.dto.OrnamentDto;
 import com.demo.arteflor.exception.OrnamentException;
 import com.demo.arteflor.model.Category;
+import com.demo.arteflor.model.Dimension;
 import com.demo.arteflor.model.Ornament;
 import com.demo.arteflor.model.Type;
 import com.demo.arteflor.repository.CategoryRepository;
@@ -61,44 +62,49 @@ public class OrnamentServiceImpl implements OrnamentService {
     }
 
 //    @Override
-//    public List<OrnamentDto> findByCategory(String category) {
-//        return ornamentRepository.findByCategory(category).stream()
-//                .map(OrnamentConvertor::convertEntityToDto)
-//                .collect(Collectors.collectingAndThen(
-//                        Collectors.toList(),
-//                        list->{
-//                            if(list.isEmpty()){
-//                                throw new OrnamentException("There are no ornaments in this category");
-//                            }
-//                            return list;
-//                        }
-//                ));
-//    }
-
-//    @Override
-//    public List<OrnamentDto> findByType(String type) {
-//        return ornamentRepository.findByType(type).stream()
-//                .map(OrnamentConvertor::convertEntityToDto)
-//                .collect(Collectors.collectingAndThen(
-//                        Collectors.toList(),
-//                        list->{
-//                            if(list.isEmpty()){
-//                                throw new OrnamentException("There are no ornaments with this type");
-//                            }
-//                            return list;
-//                        }
-//                ));
+//    public List<OrnamentDto> findByCategory(String categoryTitle) {
+//        return null;
 //    }
 
     @Override
-    public List<OrnamentDto> findByModel(String model) {
-        return ornamentRepository.findByModel(model).stream()
+    public List<OrnamentDto> findByCategoryTitle(String categoryTitle) {
+        return ornamentRepository.findByCategoryTitle(categoryTitle).stream()
                 .map(OrnamentConvertor::convertEntityToDto)
                 .collect(Collectors.collectingAndThen(
                         Collectors.toList(),
                         list->{
                             if(list.isEmpty()){
-                                throw new OrnamentException("There are no ornaments with this model");
+                                throw new OrnamentException("There are no ornaments in this category");
+                            }
+                            return list;
+                        }
+                ));
+    }
+
+    @Override
+    public List<OrnamentDto> findByTypeTitle(String typeTitle) {
+        return ornamentRepository.findByTypeTitle(typeTitle).stream()
+                .map(OrnamentConvertor::convertEntityToDto)
+                .collect(Collectors.collectingAndThen(
+                        Collectors.toList(),
+                        list->{
+                            if(list.isEmpty()){
+                                throw new OrnamentException("There are no ornaments with this type");
+                            }
+                            return list;
+                        }
+                ));
+    }
+
+    @Override
+    public List<OrnamentDto> findByDimension(Dimension dimension) {
+        return ornamentRepository.findByDimension(dimension).stream()
+                .map(OrnamentConvertor::convertEntityToDto)
+                .collect(Collectors.collectingAndThen(
+                        Collectors.toList(),
+                        list->{
+                            if(list.isEmpty()){
+                                throw new OrnamentException("There are no ornaments with this dimension");
                             }
                             return list;
                         }

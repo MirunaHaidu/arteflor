@@ -25,7 +25,7 @@ public class Ornament {
     @Column
     private Double price;
     @Column
-    private String model;  // 2D sau 3D
+    private Dimension dimension;  // 2D sau 3D
     @Column
     private String color;
     @Column

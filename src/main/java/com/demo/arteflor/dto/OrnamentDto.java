@@ -1,6 +1,7 @@
 package com.demo.arteflor.dto;
 
 import com.demo.arteflor.model.Category;
+import com.demo.arteflor.model.Dimension;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -21,7 +22,7 @@ public class OrnamentDto {
     private String name;
     private String imageURL;
     private Double price;
-    private String model;
+    private Dimension dimension;
     private String color;
     private Double size;
     private Boolean withWire;

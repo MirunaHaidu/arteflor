@@ -1,6 +1,7 @@
 package com.demo.arteflor.service;
 
 import com.demo.arteflor.dto.OrnamentDto;
+import com.demo.arteflor.model.Dimension;
 import com.demo.arteflor.model.Ornament;
 
 import java.util.List;
@@ -10,7 +11,7 @@ public interface OrnamentService {
     Ornament addOrnament(OrnamentDto ornamentDto);
     List<OrnamentDto> getAllOrnaments();
     Optional<List<OrnamentDto>> findByName(String name);
-//    List<OrnamentDto> findByCategory(String category);
-//    List<OrnamentDto> findByType(String type);
-    List<OrnamentDto> findByModel(String model);
+    List<OrnamentDto> findByCategoryTitle(String categoryTitle);
+    List<OrnamentDto> findByTypeTitle(String type);
+    List<OrnamentDto> findByDimension(Dimension dimension);
 }
