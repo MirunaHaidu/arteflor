@@ -19,6 +19,7 @@ public class OrnamentDto {
     private String name;
     private String imageURL;
     private Double price;
+    private Integer quantity;
     private Dimension dimension;
     private String color;
     private Double size;

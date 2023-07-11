@@ -16,5 +16,5 @@ import java.util.List;
 public class CartDto {
     private Integer id;
     private Double totalPrice = 0.0;
-    private List<OrnamentDto> ornaments = new ArrayList<>();
+
 }

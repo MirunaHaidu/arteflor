@@ -9,6 +9,7 @@ import java.util.Optional;
 
 public interface OrnamentService {
     Ornament addOrnament(OrnamentDto ornamentDto);
+    Ornament getById(Integer id);
     List<OrnamentDto> getAllOrnaments();
     Optional<List<OrnamentDto>> findByName(String name);
     List<OrnamentDto> findByCategoryTitle(String categoryTitle);

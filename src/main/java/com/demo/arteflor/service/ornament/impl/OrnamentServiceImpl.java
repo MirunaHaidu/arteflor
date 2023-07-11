@@ -43,6 +43,12 @@ public class OrnamentServiceImpl implements OrnamentService {
     }
 
     @Override
+    public Ornament getById(Integer id) {
+        return ornamentRepository.getById(id);
+    }
+
+
+    @Override
     public List<OrnamentDto> getAllOrnaments() {
         return this.ornamentRepository.findAll().stream()
                 .map(OrnamentConvertor::convertEntityToDto)

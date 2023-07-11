@@ -1,12 +1,10 @@
 package com.demo.arteflor.model.user;
 
+import com.fasterxml.jackson.annotation.*;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.apache.catalina.LifecycleState;
 
 import java.util.ArrayList;
@@ -25,7 +23,10 @@ public class Address {
     @Column
     @NotBlank
     @Size(min = 5, message = "Street name must contain at least 5 characters")
-    private String addressNameAndNumber;
+    private String name;
+
+    @Column
+    private Integer number;
 
     @Column
     @NotBlank
@@ -37,23 +38,28 @@ public class Address {
     @Size(min = 2, message = "County name must contain at least 2 characters")
     private String county;
 
+    @Column
     @NotBlank
     @Size(min = 2, message = "Country name must contain at least 2 characters")
     private String country;
 
+    @Column
     @NotBlank
     @Size(min = 6, message = "Zip code must contain at least 6 characters")
     private String zipCode;
 
-    @ManyToMany(mappedBy = "addresses")
-    private List<User> users = new ArrayList<>();
 
-    public Address(String country, String county, String city, String zipCode, String addressNameAndNumber){
+    @ManyToMany(mappedBy = "addresses")
+    @JsonIgnore
+    private List<User> users;
+
+    public Address(String country, String county, String city, String zipCode, String name, Integer number){
         this.country = country;
         this.county = county;
         this.city = city;
         this.zipCode = zipCode;
-        this.addressNameAndNumber = addressNameAndNumber;
+        this.name = name;
+        this.number = number;
     }
 
 

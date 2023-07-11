@@ -30,6 +30,8 @@ public class Ornament {
     @Column
     private Double price;
     @Column
+    private Integer quantity;
+    @Column
     private Dimension dimension;  // 2D sau 3D
     @Column
     private String color;

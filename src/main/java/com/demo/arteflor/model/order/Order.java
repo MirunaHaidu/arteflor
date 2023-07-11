@@ -4,6 +4,7 @@ import com.demo.arteflor.model.user.Payment;
 import com.demo.arteflor.model.user.User;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -22,6 +23,10 @@ public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+
+    @Email
+    @Column(nullable = false)
+    private String email;
 
     @Column
     private String orderStatus;

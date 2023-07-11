@@ -17,6 +17,7 @@ public class OrnamentConvertor {
         ornament.setName(ornamentDto.getName());
         ornament.setImageURL(ornamentDto.getImageURL());
         ornament.setPrice(ornamentDto.getPrice());
+        ornament.setQuantity(ornamentDto.getQuantity());
         ornament.setDimension(ornamentDto.getDimension());
         ornament.setColor(ornamentDto.getColor());
         ornament.setSize(ornamentDto.getSize());
@@ -33,6 +34,7 @@ public class OrnamentConvertor {
         ornamentDto.setName(ornament.getName());
         ornamentDto.setImageURL(ornament.getImageURL());
         ornamentDto.setPrice(ornament.getPrice());
+        ornamentDto.setQuantity(ornament.getQuantity());
         ornamentDto.setDimension(ornament.getDimension());
         ornamentDto.setColor(ornament.getColor());
         ornamentDto.setSize(ornament.getSize());

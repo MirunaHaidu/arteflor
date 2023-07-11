@@ -23,9 +23,9 @@ public class OrderDto {
     private Integer id;
 
     private String email;
-    private List<OrderOrnamentDto> orderOrnaments = new ArrayList<>();
+//    private List<OrderOrnamentDto> orderOrnaments = new ArrayList<>();
     private LocalDate orderDate;
-    private PaymentDto payment;
+    private Integer paymentId;
     private Double totalPrice;
     private String orderStatus;
 
