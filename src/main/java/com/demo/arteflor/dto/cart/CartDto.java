@@ -1,6 +1,7 @@
 package com.demo.arteflor.dto.cart;
 
 import com.demo.arteflor.dto.ornament.OrnamentDto;
+import com.demo.arteflor.model.user.User;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,6 +16,6 @@ import java.util.List;
 @Setter
 public class CartDto {
     private Integer id;
-    private Double totalPrice = 0.0;
-
+    private Double totalPrice;
+    private User user;
 }

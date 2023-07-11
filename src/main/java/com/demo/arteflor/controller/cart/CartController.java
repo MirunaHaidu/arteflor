@@ -1,5 +1,6 @@
 package com.demo.arteflor.controller.cart;
 
+import com.demo.arteflor.dto.cart.CartOrnamentDto;
 import com.demo.arteflor.model.cart.Cart;
 import com.demo.arteflor.repository.cart.CartRepository;
 import com.demo.arteflor.service.cart.CartService;
@@ -20,7 +21,7 @@ public class CartController {
     }
 
     @PostMapping("/addOrnamentToCart")
-    public ResponseEntity<Cart> addOrnamentToCart(@RequestBody @Valid Integer cartId, Integer ornamentId, Integer quantity){
-        return ResponseEntity.ok(cartService.addOrnamentToCart(cartId, ornamentId, quantity));
+    public ResponseEntity<Cart> addOrnamentToCart(@RequestBody @Valid CartOrnamentDto cartOrnamentDto){
+        return ResponseEntity.ok(cartService.addOrnamentToCart(cartOrnamentDto));
     }
 }

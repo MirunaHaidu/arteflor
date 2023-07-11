@@ -37,13 +37,13 @@ public class UserServiceImpl implements UserService {
     public User addUser(UserDto userDto) {
         User user = UserConvertor.convertDtoToEntity(userDto);
         Cart cart = new Cart();
+        cart.setUser(user);
         user.setCart(cart);
 
         Address address = addressRepository.findById(userDto.getAddressId())
                 .orElseThrow(() -> new ResourceNotFoundException("Address", "addressId", String.valueOf(userDto.getAddressId())));
 
-
-        user.setAddresses(Arrays.asList(address));
+        user.getAddresses().add(address);
 
         return userRepository.save(user);
     }

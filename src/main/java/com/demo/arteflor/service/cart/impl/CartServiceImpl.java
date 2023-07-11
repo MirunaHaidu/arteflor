@@ -1,6 +1,7 @@
 package com.demo.arteflor.service.cart.impl;
 
 import com.demo.arteflor.dto.cart.CartDto;
+import com.demo.arteflor.dto.cart.CartOrnamentDto;
 import com.demo.arteflor.dto.ornament.OrnamentDto;
 import com.demo.arteflor.exception.APIException;
 import com.demo.arteflor.exception.ResourceNotFoundException;
@@ -14,6 +15,8 @@ import com.demo.arteflor.service.cart.CartService;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -32,11 +35,33 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
-    public Cart addOrnamentToCart(Integer cartId, Integer ornamentId, Integer quantity) {
+    public Cart addOrnamentToCart(CartOrnamentDto cartOrnamentDto) {
+        Cart cart = cartRepository.findById(cartOrnamentDto.getCartId())
+                .orElseThrow(() -> new ResourceNotFoundException("Cart", "cartId", String.valueOf(cartOrnamentDto.getCartId())));
+
+        Ornament ornament = ornamentRepository.getById(cartOrnamentDto.getOrnamentId());
 
 
+        if (ornament.getQuantity() == 0) {
+            throw new APIException(ornament.getName() + " is not available");
+        }
 
-        return null;
+        if (ornament.getQuantity() < cartOrnamentDto.getQuantity()) {
+            throw new APIException("Please, make an order of the " + ornament.getName()
+                    + " less than or equal to the quantity " + ornament.getQuantity() + ".");
+        }
+
+        CartOrnament cartOrnament = new CartOrnament();
+        cartOrnament.setOrnament(ornament);
+        cartOrnament.setOrnamentPrice(ornament.getPrice());
+        cartOrnament.setQuantity(cartOrnamentDto.getQuantity());
+        cartOrnament.setCart(cart);
+
+        cart.getCartOrnaments().add(cartOrnament);
+        cart.setTotalPrice(cart.getTotalPrice() + (cartOrnament.getOrnamentPrice() * cartOrnament.getQuantity()));
+        ornament.setQuantity(ornament.getQuantity()- cartOrnament.getQuantity());
+
+        return cartRepository.save(cart);
 
     }
 

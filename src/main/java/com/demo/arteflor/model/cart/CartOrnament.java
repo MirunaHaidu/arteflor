@@ -1,6 +1,7 @@
 package com.demo.arteflor.model.cart;
 
 import com.demo.arteflor.model.ornament.Ornament;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -25,6 +26,7 @@ public class CartOrnament {
 
     @ManyToOne
     @JoinColumn(name = "cart_id")
+    @JsonIgnore
     private Cart cart;
 
     @ManyToOne

@@ -54,14 +54,11 @@ public class Ornament {
     @JoinColumn(name = "types_id")
     private Type type;
 
-    @OneToMany(mappedBy = "ornament", cascade ={CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "ornament", cascade = {CascadeType.PERSIST, CascadeType.MERGE }, fetch = FetchType.EAGER)
     private List<CartOrnament> cartOrnaments = new ArrayList<>();
 
     @OneToMany(mappedBy = "ornament", cascade ={CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.EAGER)
     private List<OrderOrnament> orderOrnaments = new ArrayList<>();
-
-
-
 
 
 }
