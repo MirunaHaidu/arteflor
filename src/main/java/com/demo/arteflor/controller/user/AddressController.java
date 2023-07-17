@@ -4,12 +4,13 @@ import com.demo.arteflor.dto.user.AddressDto;
 import com.demo.arteflor.model.user.Address;
 import com.demo.arteflor.service.user.AddressService;
 import jakarta.validation.Valid;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @CrossOrigin
 @RestController
-@RequestMapping("/api/v1/address")
+@RequestMapping("/api/v1/public/address")
 @ControllerAdvice
 public class AddressController {
     private final AddressService addressService;
@@ -19,7 +20,8 @@ public class AddressController {
     }
 
     @PostMapping("/addAddress")
-    public ResponseEntity<Address> addAddress(@RequestBody @Valid AddressDto addressDto){
-        return ResponseEntity.ok(addressService.addAddress(addressDto));
+    public ResponseEntity<Address> addAddress(@RequestBody @Valid AddressDto addressDto) {
+        Address savedAddress = addressService.addAddress(addressDto);
+        return new ResponseEntity<Address>(savedAddress, HttpStatus.CREATED);
     }
 }

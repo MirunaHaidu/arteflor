@@ -1,8 +1,6 @@
 package com.demo.arteflor.service.cart.impl;
 
-import com.demo.arteflor.dto.cart.CartDto;
 import com.demo.arteflor.dto.cart.CartOrnamentDto;
-import com.demo.arteflor.dto.ornament.OrnamentDto;
 import com.demo.arteflor.exception.APIException;
 import com.demo.arteflor.exception.ResourceNotFoundException;
 import com.demo.arteflor.model.cart.Cart;
@@ -14,11 +12,6 @@ import com.demo.arteflor.repository.ornament.OrnamentRepository;
 import com.demo.arteflor.service.cart.CartService;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Service("test_qualifier_cartServiceImpl")
 @Transactional

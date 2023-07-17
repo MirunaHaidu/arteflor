@@ -8,6 +8,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -24,9 +25,9 @@ public class OrderDto {
 
     private String email;
 //    private List<OrderOrnamentDto> orderOrnaments = new ArrayList<>();
-    private LocalDate orderDate;
+//    @DateTimeFormat(pattern = "yyyy-MM-dd")
+//    private LocalDate orderDate;
     private Integer paymentId;
-    private Double totalPrice;
-    private String orderStatus;
+
 
 }

@@ -1,7 +1,6 @@
 package com.demo.arteflor.service.cart;
 
 
-import com.demo.arteflor.dto.cart.CartDto;
 import com.demo.arteflor.dto.cart.CartOrnamentDto;
 import com.demo.arteflor.model.cart.Cart;
 

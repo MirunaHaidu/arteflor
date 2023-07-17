@@ -1,8 +1,10 @@
 package com.demo.arteflor.model.order;
 
 import com.demo.arteflor.model.user.Payment;
-import com.demo.arteflor.model.user.User;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import lombok.AllArgsConstructor;
@@ -10,7 +12,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,6 +21,7 @@ import java.util.List;
 @Getter
 @Setter
 @Entity(name = "orders")
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -33,7 +36,8 @@ public class Order {
     @Column
     private Double totalPrice;
     @Column
-    private LocalDate orderDate;
+    private LocalDateTime orderDateTime;
+
 
     @OneToMany(mappedBy = "order", fetch = FetchType.LAZY)
     private List<OrderOrnament> orderOrnaments = new ArrayList<>();
@@ -46,4 +50,9 @@ public class Order {
 //    @ManyToOne
 //    @JoinColumn(name = "users_id")
 //    private User user;
+
+    @JsonIgnore
+    public List<OrderOrnament> getOrderOrnaments() {
+        return orderOrnaments;
+    }
 }

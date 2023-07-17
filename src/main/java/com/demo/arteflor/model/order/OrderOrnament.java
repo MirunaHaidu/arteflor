@@ -2,7 +2,10 @@ package com.demo.arteflor.model.order;
 
 import com.demo.arteflor.model.order.Order;
 import com.demo.arteflor.model.ornament.Ornament;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -16,6 +19,7 @@ import java.time.LocalDate;
 @Getter
 @Setter
 @Entity(name = "order_ornaments")
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class OrderOrnament {
 
     @Id
@@ -28,10 +32,10 @@ public class OrderOrnament {
     @Column
     private Double price;
 
-    @Column
-    private LocalDate createdDate;
+//    @Column
+//    private LocalDate createdDate;
 
-    @JsonIgnore
+
     @ManyToOne
     @JoinColumn(name = "orders_id")
     private Order order;

@@ -11,7 +11,7 @@ import java.util.List;
 
 @CrossOrigin
 @RestController
-@RequestMapping("/api/v1/category")
+@RequestMapping("/api/v1")
 @ControllerAdvice
 public class CategoryController {
     private final CategoryService categoryService;
@@ -20,11 +20,11 @@ public class CategoryController {
         this.categoryService = categoryService;
     }
 
-    @PostMapping("/addCategory")
+    @PostMapping("/admin/category/addCategory")
     public ResponseEntity<Category> addCategory(@RequestBody @Valid CategoryDto categoryDto){
         return ResponseEntity.ok(categoryService.addCategory(categoryDto));
     }
-    @GetMapping("/getAllCategories")
+    @GetMapping("/public/category/getAllCategories")
     public ResponseEntity<List<CategoryDto>> getAllCategories(){
         return ResponseEntity.ok(categoryService.getAllCategories());
     }
