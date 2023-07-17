@@ -1,10 +1,7 @@
 package com.demo.arteflor.dto.user;
 
-import com.demo.arteflor.dto.cart.CartDto;
+import com.demo.arteflor.model.user.Address;
 import com.demo.arteflor.model.user.Role;
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -25,8 +22,8 @@ public class UserDto {
     private String lastName;
     private String email;
     private String password;
-    private Role role;
-    private Integer addressId;
+    private Integer roleId;
+    private Address address;
 //    private AddressDto address;
 //    private CartDto cart;
 

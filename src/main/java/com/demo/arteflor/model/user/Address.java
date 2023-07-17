@@ -5,9 +5,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.*;
-import org.apache.catalina.LifecycleState;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @AllArgsConstructor
@@ -23,7 +21,7 @@ public class Address {
     @Column
     @NotBlank
     @Size(min = 5, message = "Street name must contain at least 5 characters")
-    private String name;
+    private String street;
 
     @Column
     private Integer number;
@@ -53,12 +51,12 @@ public class Address {
     @JsonIgnore
     private List<User> users;
 
-    public Address(String country, String county, String city, String zipCode, String name, Integer number){
+    public Address(String country, String county, String city, String zipCode, String street, Integer number){
         this.country = country;
         this.county = county;
         this.city = city;
         this.zipCode = zipCode;
-        this.name = name;
+        this.street = street;
         this.number = number;
     }
 

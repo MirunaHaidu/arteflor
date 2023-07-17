@@ -9,7 +9,10 @@ import java.util.Optional;
 public interface UserService {
 
     User addUser(UserDto userDto);
+    void addAdminRoleToUser(User user);
     List<UserDto> getAllUsers();
-    UserDto getUserByEmail(String email);
+//    UserDto getUserByEmail(String email);
     String deleteUser(Integer userId);
+
+
 }

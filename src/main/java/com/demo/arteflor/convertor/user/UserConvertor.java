@@ -18,7 +18,6 @@ public class UserConvertor {
         user.setLastName(userDto.getLastName());
         user.setEmail(userDto.getEmail());
         user.setPassword(userDto.getPassword());
-        user.setRole(userDto.getRole());
 
         return user;
     }
@@ -29,7 +28,6 @@ public class UserConvertor {
         userDto.setLastName(user.getLastName());
         userDto.setEmail(user.getEmail());
         userDto.setPassword(user.getPassword());
-        userDto.setRole(user.getRole());
 
         return userDto;
     }

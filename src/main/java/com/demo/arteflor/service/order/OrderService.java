@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface OrderService {
 
-    Order placeOrder(OrderDto orderDto, String email, Integer cartId);
+    Order placeOrder(Integer cartId, String paymentMethod);
     Order getById(Integer id);
     List<OrderDto> getAllOrders();
     OrderDto getOrderByUserEmail();

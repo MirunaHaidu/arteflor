@@ -11,7 +11,7 @@ import java.util.List;
 
 @CrossOrigin
 @RestController
-@RequestMapping("/api/v1/type")
+@RequestMapping("/api/v1")
 @ControllerAdvice
 public class TypeController {
 
@@ -21,11 +21,11 @@ public class TypeController {
         this.typeService = typeService;
     }
 
-    @PostMapping("/addType")
+    @PostMapping("/admin/type/addType")
     public ResponseEntity<Type> addType(@RequestBody @Valid TypeDto typeDto){
         return ResponseEntity.ok(typeService.addType(typeDto));
     }
-    @GetMapping("/getAllTypes")
+    @GetMapping("/public/type/getAllTypes")
     public ResponseEntity<List<TypeDto>> getAllTypes(){
         return ResponseEntity.ok(typeService.getAllTypes());
     }

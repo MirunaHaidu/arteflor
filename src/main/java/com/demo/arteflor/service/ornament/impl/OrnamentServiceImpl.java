@@ -67,10 +67,6 @@ public class OrnamentServiceImpl implements OrnamentService {
        return Optional.of(foundOrnaments);
     }
 
-//    @Override
-//    public List<OrnamentDto> findByCategory(String categoryTitle) {
-//        return null;
-//    }
 
     @Override
     public List<OrnamentDto> findByCategoryTitle(String categoryTitle) {

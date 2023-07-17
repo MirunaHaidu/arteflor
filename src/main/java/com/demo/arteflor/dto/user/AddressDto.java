@@ -16,7 +16,7 @@ public class AddressDto {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
-    private String name;
+    private String street;
     private Integer number;
     private String city;
     private String county;

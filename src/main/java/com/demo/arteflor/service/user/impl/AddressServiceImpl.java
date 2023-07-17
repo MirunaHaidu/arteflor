@@ -33,9 +33,9 @@ public class AddressServiceImpl implements AddressService {
         String county = addressDto.getCounty();
         String city = addressDto.getCity();
         String zipCode = addressDto.getZipCode();
-        String name = addressDto.getName();
+        String street = addressDto.getStreet();
         Integer number = addressDto.getNumber();
-        Address addressFromDB = addressRepository.findByNameAndNumberAndCountryAndCountyAndCityAndZipCode(name, number,
+        Address addressFromDB = addressRepository.findByStreetAndNumberAndCountryAndCountyAndCityAndZipCode(street, number,
                 country, county, city, zipCode);
 
         if (addressFromDB != null) {

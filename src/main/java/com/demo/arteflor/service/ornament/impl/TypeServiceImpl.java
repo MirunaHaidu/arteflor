@@ -29,7 +29,12 @@ public class TypeServiceImpl implements TypeService {
     public Type addType(TypeDto typeDto) {
         Type type = TypeConvertor.convertDtoToEntity(typeDto);
         Category category = categoryRepository.findByTitle(typeDto.getCategoryTitle());
+        if (category == null) {
+            throw new RuntimeException("Invalid category");
+        }
         type.setCategory(category);
+        System.out.println(type.getCategory().getTitle());
+
         return typeRepository.save(type);
     }
 

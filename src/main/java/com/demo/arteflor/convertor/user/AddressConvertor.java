@@ -17,7 +17,7 @@ public class AddressConvertor {
         address.setCounty(addressDto.getCounty());
         address.setCity(addressDto.getCity());
         address.setZipCode(addressDto.getZipCode());
-        address.setName(addressDto.getName());
+        address.setStreet(addressDto.getStreet());
         address.setNumber(addressDto.getNumber());
 
         return address;
@@ -29,7 +29,7 @@ public class AddressConvertor {
         addressDto.setCounty(address.getCounty());
         addressDto.setCity(address.getCity());
         addressDto.setZipCode(address.getZipCode());
-        addressDto.setName(address.getName());
+        addressDto.setStreet(address.getStreet());
         addressDto.setNumber(address.getNumber());
 
         return addressDto;

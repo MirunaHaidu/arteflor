@@ -11,7 +11,7 @@ import java.util.List;
 
 @CrossOrigin
 @RestController
-@RequestMapping("/api/v1/ornament")
+@RequestMapping("/api/v1")
 @ControllerAdvice
 public class OrnamentController {
     private final OrnamentService ornamentService;
@@ -20,28 +20,28 @@ public class OrnamentController {
         this.ornamentService = ornamentService;
     }
 
-    @PostMapping("/addOrnament")
+    @PostMapping("/admin/ornament/addOrnament")
     public ResponseEntity<Ornament> addOrnament(@RequestBody @Valid OrnamentDto ornamentDto){
         return ResponseEntity.ok(ornamentService.addOrnament(ornamentDto));
     }
 
-    @GetMapping("/getAllOrnaments")
+    @GetMapping("/public/ornament/getAllOrnaments")
     public ResponseEntity<List<OrnamentDto>> getAllOrnaments(){
         return ResponseEntity.ok(ornamentService.getAllOrnaments());
     }
-    @GetMapping("/getOrnamentByName")
+    @GetMapping("/public/ornament/getOrnamentByName")
     public ResponseEntity<List<OrnamentDto>> getOrnamentByName(@RequestParam String name){
         return ResponseEntity.of(ornamentService.findByName(name));
     }
-    @GetMapping("/ornament-category-search")
+    @GetMapping("/public/ornament/ornament-category-search")
     public ResponseEntity<List<OrnamentDto>> getOrnamentByCategory(@RequestParam String categoryTitle){
         return ResponseEntity.ok(ornamentService.findByCategoryTitle(categoryTitle));
     }
-    @GetMapping("/ornament-type-search")
+    @GetMapping("/public/ornament/ornament-type-search")
     public ResponseEntity<List<OrnamentDto>> getOrnamentByType(@RequestParam String typeTitle){
         return ResponseEntity.ok(ornamentService.findByTypeTitle(typeTitle));
     }
-    @GetMapping("/ornament-model-search")
+    @GetMapping("/public/ornament/ornament-model-search")
     public ResponseEntity<List<OrnamentDto>> getOrnamentByModel(@RequestParam String model){
         return ResponseEntity.of(ornamentService.findByName(model));
     }

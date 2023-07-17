@@ -10,9 +10,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@CrossOrigin
+@CrossOrigin(origins = "*")
 @RestController
-@RequestMapping("/api/v1/user")
+@RequestMapping("/api/v1")
 @ControllerAdvice
 public class UserController {
     private final UserService userService;
@@ -26,7 +26,7 @@ public class UserController {
         return ResponseEntity.ok(userService.addUser(userDto));
     }
 
-    @GetMapping("/getAllUsers")
+    @GetMapping("/admin/user/getAllUsers")
     public ResponseEntity<List<UserDto>> getAllUsers(){
         return ResponseEntity.ok(userService.getAllUsers());
     }
