@@ -6,8 +6,6 @@ import com.demo.arteflor.model.user.User;
 import com.demo.arteflor.payloads.LoginCredentials;
 import com.demo.arteflor.security.JWTUtil;
 import com.demo.arteflor.service.user.UserService;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,9 +16,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
 
+@CrossOrigin(origins = "http://localhost:4200")
 @RestController
 @RequestMapping("/api")
-@CrossOrigin(origins = "http://localhost:4200")
 public class AuthController {
     private final UserService userService;
     private final JWTUtil jwtUtil;
@@ -61,30 +59,8 @@ public class AuthController {
     }
 
 
-    private List<String> tokenBlacklist = new ArrayList<>();
-    @DeleteMapping("/logout")
-    public ResponseEntity<Void> logoutHandler(HttpServletRequest request, HttpServletResponse response) {
-        String authorizationHeader = request.getHeader("Authorization");
 
-        if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
-            String jwtToken = authorizationHeader.substring(7); // Extragere token din header
-
-            // Adăugăm token-ul în lista neagră pentru a-l invalida la logout
-            tokenBlacklist.add(jwtToken);
-
-            // În plus, puteți efectua și alte acțiuni specifice pentru logout, de exemplu, ștergerea unui token de refresh
-
-            // Răspuns cu codul HTTP 200 OK pentru a indica faptul că logout-ul a fost efectuat cu succes
-            return ResponseEntity.ok().build();
-        }
-
-        // Răspuns cu codul HTTP 400 Bad Request sau alt cod corespunzător în cazul în care nu se poate efectua logout
-        return ResponseEntity.badRequest().build();
-    }
 }
-
-
-
 
 
 
