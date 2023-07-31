@@ -1,25 +1,30 @@
 package com.demo.arteflor.service.user.impl;
 
-import com.demo.arteflor.convertor.user.AddressConvertor;
+import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.demo.arteflor.convertor.user.UserConvertor;
-import com.demo.arteflor.dto.user.AddressDto;
 import com.demo.arteflor.dto.user.UserDto;
 import com.demo.arteflor.exception.APIException;
+import com.demo.arteflor.exception.ResourceNotFoundException;
 import com.demo.arteflor.model.cart.Cart;
-import com.demo.arteflor.model.user.Address;
 import com.demo.arteflor.model.user.Role;
 import com.demo.arteflor.model.user.User;
+import com.demo.arteflor.payloads.UserResponse;
 import com.demo.arteflor.repository.cart.CartRepository;
 import com.demo.arteflor.repository.user.AddressRepository;
 import com.demo.arteflor.repository.user.RoleRepository;
 import com.demo.arteflor.repository.user.UserRepository;
+import com.demo.arteflor.security.JWTUtil;
 import com.demo.arteflor.service.user.UserService;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.transaction.Transactional;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service("test_qualifier_userServiceImpl")
@@ -30,12 +35,14 @@ public class UserServiceImpl implements UserService {
     private final AddressRepository addressRepository;
     private final CartRepository cartRepository;
     private final RoleRepository roleRepository;
+    private final JWTUtil jwtUtil;
 
-    public UserServiceImpl(UserRepository userRepository, AddressRepository addressRepository, CartRepository cartRepository, RoleRepository roleRepository) {
+    public UserServiceImpl(UserRepository userRepository, AddressRepository addressRepository, CartRepository cartRepository, RoleRepository roleRepository, JWTUtil jwtUtil) {
         this.userRepository = userRepository;
         this.addressRepository = addressRepository;
         this.cartRepository = cartRepository;
         this.roleRepository = roleRepository;
+        this.jwtUtil = jwtUtil;
     }
 
 
@@ -59,9 +66,9 @@ public class UserServiceImpl implements UserService {
 
 
             return userRepository.save(user);
-        } catch (DataIntegrityViolationException e){
+        } catch (DataIntegrityViolationException e) {
             e.printStackTrace();
-            throw new APIException("User already exists with email: "+userDto.getEmail());
+            throw new APIException("User already exists with email: " + userDto.getEmail());
         }
     }
 
@@ -74,9 +81,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<UserDto> getAllUsers() {
-       return userRepository.findAll().stream()
-               .map(UserConvertor::convertEntityToDto)
-               .collect(Collectors.toList());
+        return userRepository.findAll().stream()
+                .map(UserConvertor::convertEntityToDto)
+                .collect(Collectors.toList());
     }
 
 
@@ -85,5 +92,24 @@ public class UserServiceImpl implements UserService {
         return null;
     }
 
+    @Override
+    public User getUserById(Integer userId) {
+        return userRepository.findById(userId)
+                .orElseThrow(()->new ResourceNotFoundException("User", "userId", String.valueOf(userId)));
+    }
+
+    @Override
+    public Integer getUserIdByEmail(String email) {
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(()->new ResourceNotFoundException("User", "email", email));
+
+        if (user != null) {
+            return user.getId();
+        } else {
+            return null;
+        }
+    }
+
 
 }
+

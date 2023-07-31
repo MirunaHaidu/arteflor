@@ -3,8 +3,11 @@ package com.demo.arteflor.controller.user;
 import com.demo.arteflor.convertor.user.UserConvertor;
 import com.demo.arteflor.dto.user.UserDto;
 import com.demo.arteflor.model.user.User;
+import com.demo.arteflor.payloads.UserResponse;
 import com.demo.arteflor.service.user.UserService;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,5 +32,14 @@ public class UserController {
     @GetMapping("/admin/user/getAllUsers")
     public ResponseEntity<List<UserDto>> getAllUsers(){
         return ResponseEntity.ok(userService.getAllUsers());
+    }
+
+
+    @GetMapping("/public/users/{userId}")
+    @ResponseBody
+    public ResponseEntity<User> getUser(@PathVariable Integer userId){
+        User user = userService.getUserById(userId);
+
+        return new ResponseEntity<User>(user, HttpStatus.FOUND);
     }
 }

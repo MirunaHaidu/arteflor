@@ -34,7 +34,7 @@ public class AuthController {
 
     @CrossOrigin
     @PostMapping("/register")
-    public ResponseEntity<Map<String, Object>> registerHandler(@Valid @RequestBody UserDto userDto)throws UserNotFoundException{
+    public ResponseEntity<Map<String, Object>> registerHandler(@Valid @RequestBody UserDto userDto) throws UserNotFoundException {
         String encodedPass = passwordEncoder.encode(userDto.getPassword());
         userDto.setPassword(encodedPass);
 
@@ -42,23 +42,30 @@ public class AuthController {
 
         String token = jwtUtil.generateToken(user.getEmail());
 
-        return new ResponseEntity<Map<String, Object>>(Collections.singletonMap("jwt-token", token),
+        return new ResponseEntity<>(Collections.singletonMap("jwt-token", token),
                 HttpStatus.CREATED);
 
     }
 
     @PostMapping("/login")
-    public Map<String, Object> loginHandler(@Valid @RequestBody LoginCredentials credentials){
+    public Map<String, Object> loginHandler(@Valid @RequestBody LoginCredentials credentials) {
         UsernamePasswordAuthenticationToken authCredentials = new UsernamePasswordAuthenticationToken(
                 credentials.getEmail(), credentials.getPassword());
 
         authenticationManager.authenticate(authCredentials);
         String token = jwtUtil.generateToken(credentials.getEmail());
 
-        return Collections.singletonMap("jwt-token", token);
+        Integer userId = userService.getUserIdByEmail(credentials.getEmail());
+        if (userId != null && userId > 0) {
+            // Adăugați ID-ul utilizatorului la răspunsul pe care îl returnați
+            Map<String, Object> response = new HashMap<>();
+            response.put("jwt-token", token);
+            response.put("id", userId);
+            return response;
+        } else {
+            return Collections.singletonMap("jwt-token", token);
+        }
     }
-
-
 
 }
 
