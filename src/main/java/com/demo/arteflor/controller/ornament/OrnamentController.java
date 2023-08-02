@@ -4,9 +4,11 @@ import com.demo.arteflor.dto.ornament.OrnamentDto;
 import com.demo.arteflor.model.ornament.Ornament;
 import com.demo.arteflor.service.ornament.OrnamentService;
 import jakarta.validation.Valid;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.http.HttpResponse;
 import java.util.List;
 
 @CrossOrigin
@@ -21,28 +23,44 @@ public class OrnamentController {
     }
 
     @PostMapping("/admin/ornament/addOrnament")
-    public ResponseEntity<Ornament> addOrnament(@RequestBody @Valid OrnamentDto ornamentDto){
+    public ResponseEntity<Ornament> addOrnament(@RequestBody @Valid OrnamentDto ornamentDto) {
         return ResponseEntity.ok(ornamentService.addOrnament(ornamentDto));
     }
 
     @GetMapping("/public/ornament/getAllOrnaments")
-    public ResponseEntity<List<OrnamentDto>> getAllOrnaments(){
+    public ResponseEntity<List<OrnamentDto>> getAllOrnaments() {
         return ResponseEntity.ok(ornamentService.getAllOrnaments());
     }
+
     @GetMapping("/public/ornament/getOrnamentByName")
-    public ResponseEntity<List<OrnamentDto>> getOrnamentByName(@RequestParam String name){
+    public ResponseEntity<List<OrnamentDto>> getOrnamentByName(@RequestParam String name) {
         return ResponseEntity.of(ornamentService.findByName(name));
     }
+
     @GetMapping("/public/ornament/ornament-category-search")
-    public ResponseEntity<List<OrnamentDto>> getOrnamentByCategory(@RequestParam String categoryTitle){
+    public ResponseEntity<List<OrnamentDto>> getOrnamentByCategory(@RequestParam String categoryTitle) {
         return ResponseEntity.ok(ornamentService.findByCategoryTitle(categoryTitle));
     }
+
     @GetMapping("/public/ornament/ornament-type-search")
-    public ResponseEntity<List<OrnamentDto>> getOrnamentByType(@RequestParam String typeTitle){
+    public ResponseEntity<List<OrnamentDto>> getOrnamentByType(@RequestParam String typeTitle) {
         return ResponseEntity.ok(ornamentService.findByTypeTitle(typeTitle));
     }
+
     @GetMapping("/public/ornament/ornament-model-search")
-    public ResponseEntity<List<OrnamentDto>> getOrnamentByModel(@RequestParam String model){
+    public ResponseEntity<List<OrnamentDto>> getOrnamentByModel(@RequestParam String model) {
         return ResponseEntity.of(ornamentService.findByName(model));
+    }
+
+    @PutMapping("/admin/ornament/update")
+    public ResponseEntity<Ornament> updateOrnament(@RequestParam Integer ornamentId, @RequestBody OrnamentDto ornamentDto) {
+        Ornament updatedOrnament = ornamentService.updateOrnament(ornamentId, ornamentDto);
+        return new ResponseEntity<>(updatedOrnament, HttpStatus.OK);
+    }
+
+    @DeleteMapping("/admin/ornament/delete")
+    public ResponseEntity<String> deleteOrnament(@RequestParam Integer ornamentId) {
+        String status = ornamentService.deleteOrnament(ornamentId);
+        return new ResponseEntity<>(status, HttpStatus.OK);
     }
 }

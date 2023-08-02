@@ -1,30 +1,27 @@
 package com.demo.arteflor.service.user.impl;
 
-import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.demo.arteflor.convertor.user.UserConvertor;
 import com.demo.arteflor.dto.user.UserDto;
 import com.demo.arteflor.exception.APIException;
 import com.demo.arteflor.exception.ResourceNotFoundException;
 import com.demo.arteflor.model.cart.Cart;
+import com.demo.arteflor.model.cart.CartOrnament;
 import com.demo.arteflor.model.user.Role;
 import com.demo.arteflor.model.user.User;
-import com.demo.arteflor.payloads.UserResponse;
 import com.demo.arteflor.repository.cart.CartRepository;
 import com.demo.arteflor.repository.user.AddressRepository;
 import com.demo.arteflor.repository.user.RoleRepository;
 import com.demo.arteflor.repository.user.UserRepository;
 import com.demo.arteflor.security.JWTUtil;
+import com.demo.arteflor.service.cart.CartService;
 import com.demo.arteflor.service.user.UserService;
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.transaction.Transactional;
 import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service("test_qualifier_userServiceImpl")
@@ -36,13 +33,17 @@ public class UserServiceImpl implements UserService {
     private final CartRepository cartRepository;
     private final RoleRepository roleRepository;
     private final JWTUtil jwtUtil;
+    private final CartService cartService;
+    private final PasswordEncoder passwordEncoder;
 
-    public UserServiceImpl(UserRepository userRepository, AddressRepository addressRepository, CartRepository cartRepository, RoleRepository roleRepository, JWTUtil jwtUtil) {
+    public UserServiceImpl(UserRepository userRepository, AddressRepository addressRepository, CartRepository cartRepository, RoleRepository roleRepository, JWTUtil jwtUtil, CartService cartService, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.addressRepository = addressRepository;
         this.cartRepository = cartRepository;
         this.roleRepository = roleRepository;
         this.jwtUtil = jwtUtil;
+        this.cartService = cartService;
+        this.passwordEncoder = passwordEncoder;
     }
 
 
@@ -73,10 +74,32 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void addAdminRoleToUser(User user) {
+    public String addAdminRole(Integer userId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new ResourceNotFoundException("User", "userId", String.valueOf(userId)));
         Role adminRole = roleRepository.findByRoleName("ADMIN");
         user.getRoles().add(adminRole);
         userRepository.save(user);
+
+        return "User with id " + userId + " now has ADMIN role!";
+    }
+
+    @Override
+    public User getUserById(Integer userId) {
+        return userRepository.findById(userId)
+                .orElseThrow(() -> new ResourceNotFoundException("User", "userId", String.valueOf(userId)));
+    }
+
+    @Override
+    public Integer getUserIdByEmail(String email) {
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new ResourceNotFoundException("User", "email", email));
+
+        if (user != null) {
+            return user.getId();
+        } else {
+            return null;
+        }
     }
 
     @Override
@@ -86,28 +109,43 @@ public class UserServiceImpl implements UserService {
                 .collect(Collectors.toList());
     }
 
+    @Override
+    public User updateUser(Integer userId, UserDto userDto) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new ResourceNotFoundException("User", "userId", String.valueOf(userId)));
+
+        if (userDto.getFirstName() != null) {
+            user.setFirstName(userDto.getFirstName());
+        }
+        if (userDto.getLastName() != null) {
+            user.setLastName(userDto.getLastName());
+        }
+        if (userDto.getEmail() != null) {
+            user.setEmail(userDto.getEmail());
+        }
+
+        String encodedPassword = passwordEncoder.encode(user.getPassword());
+        user.setPassword(encodedPassword);
+
+        return userRepository.save(user);
+    }
+
 
     @Override
     public String deleteUser(Integer userId) {
-        return null;
-    }
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new ResourceNotFoundException("User", "userId", String.valueOf(userId)));
 
-    @Override
-    public User getUserById(Integer userId) {
-        return userRepository.findById(userId)
-                .orElseThrow(()->new ResourceNotFoundException("User", "userId", String.valueOf(userId)));
-    }
+        List<CartOrnament> cartOrnaments = user.getCart().getCartOrnaments();
+        Integer cartId = user.getCart().getCartId();
 
-    @Override
-    public Integer getUserIdByEmail(String email) {
-        User user = userRepository.findByEmail(email)
-                .orElseThrow(()->new ResourceNotFoundException("User", "email", email));
+        cartOrnaments.forEach(ornament -> {
+            Integer ornamentId = ornament.getOrnament().getId();
+            cartService.removeFromCart(cartId, ornamentId);
+        });
 
-        if (user != null) {
-            return user.getId();
-        } else {
-            return null;
-        }
+        userRepository.delete(user);
+        return "User with id " + userId + " deleted successfully!";
     }
 
 

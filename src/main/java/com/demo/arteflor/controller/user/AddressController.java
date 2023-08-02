@@ -24,4 +24,10 @@ public class AddressController {
         Address savedAddress = addressService.addAddress(addressDto);
         return new ResponseEntity<Address>(savedAddress, HttpStatus.CREATED);
     }
+
+    @PutMapping("/addAddressToUser")
+    public ResponseEntity<String> addAddressToUser(@RequestParam Integer userId, @RequestParam Integer addressId){
+        String status = addressService.addAddressToUser(addressId, userId);
+        return new ResponseEntity<String>(status, HttpStatus.OK);
+    }
 }

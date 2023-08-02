@@ -15,4 +15,6 @@ public interface OrnamentService {
     List<OrnamentDto> findByCategoryTitle(String categoryTitle);
     List<OrnamentDto> findByTypeTitle(String type);
     List<OrnamentDto> findByDimension(Dimension dimension);
+    Ornament updateOrnament(Integer ornamentId, OrnamentDto ornamentDto);
+    String deleteOrnament(Integer ornamentId);
 }

@@ -5,5 +5,6 @@ import com.demo.arteflor.model.user.Address;
 
 public interface AddressService {
     Address addAddress(AddressDto addressDto);
+    String addAddressToUser(Integer addressId, Integer userId);
 
 }

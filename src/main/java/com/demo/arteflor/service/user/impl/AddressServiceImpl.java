@@ -3,6 +3,7 @@ package com.demo.arteflor.service.user.impl;
 import com.demo.arteflor.convertor.user.AddressConvertor;
 import com.demo.arteflor.dto.user.AddressDto;
 import com.demo.arteflor.exception.APIException;
+import com.demo.arteflor.exception.ResourceNotFoundException;
 import com.demo.arteflor.model.user.Address;
 import com.demo.arteflor.model.user.User;
 import com.demo.arteflor.repository.user.AddressRepository;
@@ -44,5 +45,17 @@ public class AddressServiceImpl implements AddressService {
 
         return addressRepository.save(address);
     }
+
+    @Override
+    public String addAddressToUser(Integer addressId, Integer userId) {
+        Address address = addressRepository.findById(addressId)
+                .orElseThrow(()->new ResourceNotFoundException("Address", "addressId", String.valueOf(addressId)));
+        User user = userRepository.findById(userId)
+                .orElseThrow(()->new ResourceNotFoundException("User", "userId", String.valueOf(userId)));
+        user.getAddresses().add(address);
+
+        return "Address added successfully!";
+    }
+
 
 }
