@@ -9,6 +9,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import jakarta.validation.constraints.Email;
 
+import java.util.List;
+
 @CrossOrigin
 @RestController
 @RequestMapping("/api/v1")
@@ -25,5 +27,14 @@ public class OrderController {
         Order order = orderService.placeOrder(cartId, paymentMethod);
         return new ResponseEntity<Order>(order, HttpStatus.CREATED);
     }
+
+    @GetMapping("/public/order/getOrdersByEmail")
+    public ResponseEntity<List<Order>> getOrdersByEmail(@RequestParam String email){
+        List<Order> orders = orderService.getOrdersByUserEmail(email);
+
+        return new ResponseEntity<>(orders, HttpStatus.FOUND);
+    }
+
+
 
 }

@@ -10,5 +10,5 @@ public interface OrderService {
     Order placeOrder(Integer cartId, String paymentMethod);
     Order getById(Integer id);
     List<OrderDto> getAllOrders();
-    OrderDto getOrderByUserEmail();
+    List<Order> getOrdersByUserEmail(String email);
 }

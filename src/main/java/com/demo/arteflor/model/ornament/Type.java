@@ -20,15 +20,13 @@ public class Type {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-//    @Column(unique = true)
-//    private Integer typeCode;
     @Column(unique = true)
     private String title;
 
     @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "category_id")
-    private Category category;  // ce fel de floare sau figurina
+    private Category category;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "type")
     private List<Ornament> ornaments;

@@ -32,10 +32,6 @@ public class OrderOrnament {
     @Column
     private Double price;
 
-//    @Column
-//    private LocalDate createdDate;
-
-
     @ManyToOne
     @JoinColumn(name = "orders_id")
     private Order order;

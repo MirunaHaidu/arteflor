@@ -46,11 +46,6 @@ public class Order {
     @JoinColumn(name = "payment_id")
     private Payment payment;
 
-//    @JsonIgnore
-//    @ManyToOne
-//    @JoinColumn(name = "users_id")
-//    private User user;
-
     @JsonIgnore
     public List<OrderOrnament> getOrderOrnaments() {
         return orderOrnaments;

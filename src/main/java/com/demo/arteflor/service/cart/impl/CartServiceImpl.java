@@ -13,6 +13,10 @@ import com.demo.arteflor.service.cart.CartService;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service("test_qualifier_cartServiceImpl")
 @Transactional
 public class CartServiceImpl implements CartService {
@@ -52,7 +56,7 @@ public class CartServiceImpl implements CartService {
 
         cart.getCartOrnaments().add(cartOrnament);
         cart.setTotalPrice(cart.getTotalPrice() + (cartOrnament.getOrnamentPrice() * cartOrnament.getQuantity()));
-        ornament.setQuantity(ornament.getQuantity()- cartOrnament.getQuantity());
+        ornament.setQuantity(ornament.getQuantity() - cartOrnament.getQuantity());
 
         return cartRepository.save(cart);
 
@@ -79,6 +83,55 @@ public class CartServiceImpl implements CartService {
         return "Ornament " + cartOrnament.getOrnament().getName() + " removed from the cart!!!";
 
 
+    }
+
+    @Override
+    public List<Cart> getAllCarts() {
+        return new ArrayList<>(cartRepository.findAll());
+    }
+
+    @Override
+    public Cart getCartById(Integer cartId) {
+        return cartRepository.findById(cartId)
+                .orElseThrow(() -> new ResourceNotFoundException("Cart", "cartId", String.valueOf(cartId)));
+    }
+
+    @Override
+    public Cart updateCartOrnament(Integer cartId, Integer ornamentId, Integer quantity) {
+        Cart cart = cartRepository.findById(cartId)
+                .orElseThrow(() -> new ResourceNotFoundException("Cart", "cartId", String.valueOf(cartId)));
+        Ornament ornament = ornamentRepository.findById(ornamentId)
+                .orElseThrow(() -> new ResourceNotFoundException("Ornament", "ornamentId", String.valueOf(ornamentId)));
+
+        if (ornament.getQuantity() == 0) {
+            throw new APIException(ornament.getName() + " is not available!");
+        }
+        if (ornament.getQuantity() < quantity) {
+            throw new APIException("Please, make an order of the " + ornament.getName()
+                    + " less than or equal to the quantity " + ornament.getQuantity() + ".");
+        }
+
+        CartOrnament cartOrnament = cartOrnamentRepository.findCartOrnamentByOrnamentIdAndCartId(cartId, ornamentId);
+
+        if (cartOrnament == null) {
+            throw new APIException("Ornament " + ornament.getName() + " not available in the cart!");
+        }
+
+        double cartPrice = cart.getTotalPrice() - (cartOrnament.getOrnamentPrice() * cartOrnament.getQuantity());
+
+        ornament.setQuantity(ornament.getQuantity() + cartOrnament.getQuantity() - quantity);
+
+        cartOrnament.setOrnamentPrice(ornament.getPrice());
+        cartOrnament.setQuantity(quantity);
+
+        cart.setTotalPrice(cartPrice + (cartOrnament.getOrnamentPrice() * quantity));
+
+        cartOrnament = cartOrnamentRepository.save(cartOrnament);
+
+        cart.getCartOrnaments().add(cartOrnament);
+
+
+        return cartRepository.save(cart);
     }
 
 

@@ -32,7 +32,7 @@ public class Ornament {
     @Column
     private Integer quantity;
     @Column
-    private Dimension dimension;  // 2D sau 3D
+    private Dimension dimension;
     @Column
     private String color;
     @Column
@@ -47,7 +47,7 @@ public class Ornament {
     @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "categories_id")
-    private Category category;  //floare sau figurina
+    private Category category;
 
     @JsonIgnore
     @ManyToOne

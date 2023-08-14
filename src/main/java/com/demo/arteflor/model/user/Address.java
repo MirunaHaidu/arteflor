@@ -51,7 +51,7 @@ public class Address {
     @JsonIgnore
     private List<User> users;
 
-    public Address(String country, String county, String city, String zipCode, String street, Integer number){
+    public Address(String country, String county, String city, String zipCode, String street, Integer number) {
         this.country = country;
         this.county = county;
         this.city = city;
@@ -59,9 +59,5 @@ public class Address {
         this.street = street;
         this.number = number;
     }
-
-
-
-
 
 }

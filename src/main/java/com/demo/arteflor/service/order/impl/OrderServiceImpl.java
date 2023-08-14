@@ -74,7 +74,7 @@ public class OrderServiceImpl implements OrderService {
         }
 
         List<OrderOrnament> orderOrnaments = new ArrayList<>();
-        for(CartOrnament cartOrnament:cartOrnaments){
+        for (CartOrnament cartOrnament : cartOrnaments) {
             OrderOrnament orderOrnament = new OrderOrnament();
 
             orderOrnament.setOrnament(cartOrnament.getOrnament());
@@ -91,7 +91,7 @@ public class OrderServiceImpl implements OrderService {
             int quantity = item.getQuantity();
             Ornament ornament = item.getOrnament();
             cartService.removeFromCart(cart.getCartId(), item.getOrnament().getId());
-            ornament.setQuantity(ornament.getQuantity()-quantity);
+            ornament.setQuantity(ornament.getQuantity() - quantity);
         });
 
         savedOrder.setOrderOrnaments(orderOrnaments);
@@ -112,7 +112,13 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public OrderDto getOrderByUserEmail() {
-        return null;
+    public List<Order> getOrdersByUserEmail(String email) {
+        List<Order> orders = orderRepository.findAllByEmail(email);
+
+        if (orders.size() == 0) {
+            throw new APIException("No orders placed yet by the user with email: " + email);
+        }
+
+        return orders;
     }
 }

@@ -23,7 +23,6 @@ public class Cart {
 
     @Column
     private Double totalPrice = 0.0;
-
     @OneToOne
     @JoinColumn(name = "user_id")
     @JsonIgnore

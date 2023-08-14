@@ -27,5 +27,4 @@ public class Payment {
     @Size(min = 4, message = "Payment method must contain at least 4 characters")
     private String paymentMethod;
 
-
 }

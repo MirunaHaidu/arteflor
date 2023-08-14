@@ -12,4 +12,6 @@ public interface OrderRepository extends JpaRepository<Order, Integer> {
 
     Order getById(Integer id);
 
+    List<Order> findAllByEmail(String email);
+
 }

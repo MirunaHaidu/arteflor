@@ -9,6 +9,6 @@ import java.util.Optional;
 public interface CategoryService {
     Category addCategory(CategoryDto categoryDto);
     List<CategoryDto> getAllCategories();
-    Optional<CategoryDto> findByCode(Integer code);
-    Category findByTitle(String title);
+    Category updateCategory(Integer categoryId, CategoryDto categoryDto);
+    String deleteCategory(Integer categoryId);
 }
